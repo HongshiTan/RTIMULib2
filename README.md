@@ -6,6 +6,15 @@ RTIMULib2 is the development version of the original RTIMULib library. So far, t
 
 *** Magnetometer calibration is critical for good performance and, with some IMU chips, meaningful fusion results will not be obtained at all unless the magnetometers have been calibrated ***
 
+## Other versions
+
+RTIMULib2 has been extended to support some other IMUs:
+
+* HMC5883L/ADXL345/L3G4200D - https://github.com/jeff-loughlin/RTIMULib2
+* MPU-9255 - https://github.com/Nick-Currawong/RTIMULib2
+
+Thanks to those people for their work.
+
 ## Features
 
 The Linux directory contains the main demo apps for embedded Linux systems:
