@@ -50,15 +50,15 @@ with open('fuse_data.csv', 'wb') as f:
         # time stamp is in milliseconds.
         # convert to microseconds.
         timestamp = int(row[0]) * 1000 
-        ax = float(row[2])
-        ay = float(row[3])
-        az = float(row[4])
-        mx = float(row[5])
-        my = float(row[6])
-        mz = float(row[7])
-        gx = float(row[8])
-        gy = float(row[9])
-        gz = float(row[10])
+        ax = float(row[1])
+        ay = float(row[2])
+        az = float(row[3])
+        mx = float(row[4])
+        my = float(row[5])
+        mz = float(row[6])
+        gx = float(row[7])
+        gy = float(row[8])
+        gz = float(row[9])
 
         imu.setExtIMUData(gx, gy, gz, ax, ay, az, mx, my, mz, timestamp)
         data = imu.getIMUData()
