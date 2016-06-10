@@ -6,6 +6,8 @@ RTIMULib2 is the development version of the original RTIMULib library. So far, t
 
 *** Magnetometer calibration is critical for good performance and, with some IMU chips, meaningful fusion results will not be obtained at all unless the magnetometers have been calibrated ***
 
+## Please note that this project is no longer active.
+
 ## Other versions
 
 RTIMULib2 has been extended to support some other IMUs:
