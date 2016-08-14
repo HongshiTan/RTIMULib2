@@ -58,12 +58,12 @@
 float RTIMU::m_axisRotation[RTIMU_AXIS_ROTATION_COUNT][9] = {
     {1, 0, 0, 0, 1, 0, 0, 0, 1},                    // RTIMU_XNORTH_YEAST
     {0, -1, 0, 1, 0, 0, 0, 0, 1},                   // RTIMU_XEAST_YSOUTH
-    {-1, 0, 0, 0, -1, 0, 0, 0, 1},                  // RTIMU_XSOUTH_YWEST
+    { -1, 0, 0, 0, -1, 0, 0, 0, 1},                 // RTIMU_XSOUTH_YWEST
     {0, 1, 0, -1, 0, 0, 0, 0, 1},                   // RTIMU_XWEST_YNORTH
 
     {1, 0, 0, 0, -1, 0, 0, 0, -1},                  // RTIMU_XNORTH_YWEST
     {0, 1, 0, 1, 0, 0, 0, 0, -1},                   // RTIMU_XEAST_YNORTH
-    {-1, 0, 0, 0, 1, 0, 0, 0, -1},                  // RTIMU_XSOUTH_YEAST
+    { -1, 0, 0, 0, 1, 0, 0, 0, -1},                 // RTIMU_XSOUTH_YEAST
     {0, -1, 0, -1, 0, 0, 0, 0, -1},                 // RTIMU_XWEST_YSOUTH
 
     {0, 1, 0, 0, 0, -1, -1, 0, 0},                  // RTIMU_XUP_YNORTH
@@ -78,12 +78,12 @@ float RTIMU::m_axisRotation[RTIMU_AXIS_ROTATION_COUNT][9] = {
 
     {1, 0, 0, 0, 0, 1, 0, -1, 0},                   // RTIMU_XNORTH_YUP
     {0, 0, -1, 1, 0, 0, 0, -1, 0},                  // RTIMU_XEAST_YUP
-    {-1, 0, 0, 0, 0, -1, 0, -1, 0},                 // RTIMU_XSOUTH_YUP
+    { -1, 0, 0, 0, 0, -1, 0, -1, 0},                // RTIMU_XSOUTH_YUP
     {0, 0, 1, -1, 0, 0, 0, -1, 0},                  // RTIMU_XWEST_YUP
 
     {1, 0, 0, 0, 0, -1, 0, 1, 0},                   // RTIMU_XNORTH_YDOWN
     {0, 0, 1, 1, 0, 0, 0, 1, 0},                    // RTIMU_XEAST_YDOWN
-    {-1, 0, 0, 0, 0, 1, 0, 1, 0},                   // RTIMU_XSOUTH_YDOWN
+    { -1, 0, 0, 0, 0, 1, 0, 1, 0},                  // RTIMU_XSOUTH_YDOWN
     {0, 0, -1, -1, 0, 0, 0, 1, 0}                   // RTIMU_XWEST_YDOWN
 };
 
@@ -134,6 +134,8 @@ RTIMU *RTIMU::createIMU(RTIMUSettings *settings)
 
 RTIMU::RTIMU(RTIMUSettings *settings)
 {
+    printf("********************************************");
+    printf("verison : 1.2\n");
     m_settings = settings;
 
     m_compassCalibrationMode = false;
@@ -408,16 +410,16 @@ void RTIMU::calibrateAverageCompass()
             ev -= m_settings->m_compassCalEllipsoidOffset;
 
             m_imuData.compass.setX(ev.x() * m_settings->m_compassCalEllipsoidCorr[0][0] +
-                ev.y() * m_settings->m_compassCalEllipsoidCorr[0][1] +
-                ev.z() * m_settings->m_compassCalEllipsoidCorr[0][2]);
+                                   ev.y() * m_settings->m_compassCalEllipsoidCorr[0][1] +
+                                   ev.z() * m_settings->m_compassCalEllipsoidCorr[0][2]);
 
             m_imuData.compass.setY(ev.x() * m_settings->m_compassCalEllipsoidCorr[1][0] +
-                ev.y() * m_settings->m_compassCalEllipsoidCorr[1][1] +
-                ev.z() * m_settings->m_compassCalEllipsoidCorr[1][2]);
+                                   ev.y() * m_settings->m_compassCalEllipsoidCorr[1][1] +
+                                   ev.z() * m_settings->m_compassCalEllipsoidCorr[1][2]);
 
             m_imuData.compass.setZ(ev.x() * m_settings->m_compassCalEllipsoidCorr[2][0] +
-                ev.y() * m_settings->m_compassCalEllipsoidCorr[2][1] +
-                ev.z() * m_settings->m_compassCalEllipsoidCorr[2][2]);
+                                   ev.y() * m_settings->m_compassCalEllipsoidCorr[2][1] +
+                                   ev.z() * m_settings->m_compassCalEllipsoidCorr[2][2]);
         }
     }
 
@@ -429,26 +431,27 @@ void RTIMU::calibrateAverageCompass()
 
     m_imuData.compass = m_compassAverage;
 }
+#define  SCALE_ACCEL(value,min,max)             2*(value - (max + min)/2)/         \
+                                                (max - min)
 
 void RTIMU::calibrateAccel()
 {
     if (!getAccelCalibrationValid())
         return;
 
-    if (m_imuData.accel.x() >= 0)
-        m_imuData.accel.setX(m_imuData.accel.x() / m_settings->m_accelCalMax.x());
-    else
-        m_imuData.accel.setX(m_imuData.accel.x() / -m_settings->m_accelCalMin.x());
 
-    if (m_imuData.accel.y() >= 0)
-        m_imuData.accel.setY(m_imuData.accel.y() / m_settings->m_accelCalMax.y());
-    else
-        m_imuData.accel.setY(m_imuData.accel.y() / -m_settings->m_accelCalMin.y());
 
-    if (m_imuData.accel.z() >= 0)
-        m_imuData.accel.setZ(m_imuData.accel.z() / m_settings->m_accelCalMax.z());
-    else
-        m_imuData.accel.setZ(m_imuData.accel.z() / -m_settings->m_accelCalMin.z());
+
+    m_imuData.accel.setX(
+        SCALE_ACCEL(m_imuData.accel.x(), m_settings->m_accelCalMin.x(), m_settings->m_accelCalMax.x())
+    );
+    m_imuData.accel.setY(
+        SCALE_ACCEL(m_imuData.accel.y(), m_settings->m_accelCalMin.y(), m_settings->m_accelCalMax.y())
+    );
+    m_imuData.accel.setZ(
+        SCALE_ACCEL(m_imuData.accel.z(), m_settings->m_accelCalMin.z(), m_settings->m_accelCalMax.z())
+    );
+
 }
 
 void RTIMU::updateFusion()
@@ -461,18 +464,18 @@ bool RTIMU::IMUGyroBiasValid()
     return m_settings->m_gyroBiasValid;
 }
 
- void RTIMU::setExtIMUData(RTFLOAT gx, RTFLOAT gy, RTFLOAT gz, RTFLOAT ax, RTFLOAT ay, RTFLOAT az,
-        RTFLOAT mx, RTFLOAT my, RTFLOAT mz, uint64_t timestamp)
- {
-     m_imuData.gyro.setX(gx);
-     m_imuData.gyro.setY(gy);
-     m_imuData.gyro.setZ(gz);
-     m_imuData.accel.setX(ax);
-     m_imuData.accel.setY(ay);
-     m_imuData.accel.setZ(az);
-     m_imuData.compass.setX(mx);
-     m_imuData.compass.setY(my);
-     m_imuData.compass.setZ(mz);
-     m_imuData.timestamp = timestamp;
-     updateFusion();
+void RTIMU::setExtIMUData(RTFLOAT gx, RTFLOAT gy, RTFLOAT gz, RTFLOAT ax, RTFLOAT ay, RTFLOAT az,
+                          RTFLOAT mx, RTFLOAT my, RTFLOAT mz, uint64_t timestamp)
+{
+    m_imuData.gyro.setX(gx);
+    m_imuData.gyro.setY(gy);
+    m_imuData.gyro.setZ(gz);
+    m_imuData.accel.setX(ax);
+    m_imuData.accel.setY(ay);
+    m_imuData.accel.setZ(az);
+    m_imuData.compass.setX(mx);
+    m_imuData.compass.setY(my);
+    m_imuData.compass.setZ(mz);
+    m_imuData.timestamp = timestamp;
+    updateFusion();
 }
