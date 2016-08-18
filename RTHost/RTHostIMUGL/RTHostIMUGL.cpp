@@ -107,7 +107,7 @@ void RTHostIMUGL::onCalibrateAccelerometers()
     AccelCalDlg dlg(this, m_imuThread->getSettings());
 
     connect(m_imuThread, SIGNAL(newIMUData(const RTIMU_DATA&)),
-        &dlg, SLOT(newIMUData(const RTIMU_DATA&)), Qt::DirectConnection);
+            &dlg, SLOT(newIMUData(const RTIMU_DATA&)), Qt::DirectConnection);
 
 
     if (dlg.exec() == QDialog::Accepted) {
@@ -115,7 +115,7 @@ void RTHostIMUGL::onCalibrateAccelerometers()
     }
 
     disconnect(m_imuThread, SIGNAL(newIMUData(const RTIMU_DATA&)),
-        &dlg, SLOT(newIMUData(const RTIMU_DATA&)));
+               &dlg, SLOT(newIMUData(const RTIMU_DATA&)));
     emit newIMU();
 }
 
@@ -125,13 +125,13 @@ void RTHostIMUGL::onCalibrateMagnetometers()
     MagCalDlg dlg(this, m_imuThread->getSettings());
 
     connect(m_imuThread, SIGNAL(newIMUData(const RTIMU_DATA&)),
-        &dlg, SLOT(newIMUData(const RTIMU_DATA&)), Qt::DirectConnection);
+            &dlg, SLOT(newIMUData(const RTIMU_DATA&)), Qt::DirectConnection);
 
     if (dlg.exec() == QDialog::Accepted) {
 
     }
     disconnect(m_imuThread, SIGNAL(newIMUData(const RTIMU_DATA&)),
-        &dlg, SLOT(newIMUData(const RTIMU_DATA&)));
+               &dlg, SLOT(newIMUData(const RTIMU_DATA&)));
     emit newIMU();
 }
 
@@ -254,9 +254,9 @@ void RTHostIMUGL::timerEvent(QTimerEvent *event)
             m_calStatus->setText("No IMU found");
         } else {
             m_calStatus->setText(QString("Accel %1 : Compass %2 : Ellipsoid %3")
-                    .arg(m_imuThread->getIMU()->getAccelCalibrationValid() ? "calibrated" : "uncalibrated")
-                    .arg(m_imuThread->getIMU()->getCompassCalibrationValid() ? "calibrated" : "uncalibrated")
-                    .arg(m_imuThread->getIMU()->getCompassCalibrationEllipsoidValid() ? "in use" : "not in use"));
+                                 .arg(m_imuThread->getIMU()->getAccelCalibrationValid() ? "calibrated" : "uncalibrated")
+                                 .arg(m_imuThread->getIMU()->getCompassCalibrationValid() ? "calibrated" : "uncalibrated")
+                                 .arg(m_imuThread->getIMU()->getCompassCalibrationEllipsoidValid() ? "in use" : "not in use"));
         }
 
         if (m_imuThread->getIMU() != NULL) {
@@ -278,7 +278,7 @@ void RTHostIMUGL::layoutWindow()
 
     QVBoxLayout *vLayout = new QVBoxLayout();
 
-        vLayout->addSpacing(10);
+    vLayout->addSpacing(10);
 
     //  Set up com port line and controls
 
@@ -551,7 +551,7 @@ void RTHostIMUGL::IMURunning()
 {
     RTHostIMUClient *client = (RTHostIMUClient *)m_imuThread->getIMU();
     connect(client, SIGNAL(RTArduLinkStatus(int, int, bool, QString, qint64, qint64)), this,
-                    SLOT(RTArduLinkStatus(int, int, bool, QString, qint64, qint64)));
+            SLOT(RTArduLinkStatus(int, int, bool, QString, qint64, qint64)));
     connect(client, SIGNAL(RTArduLinkPortOpen(int)), SLOT(RTArduLinkPortOpen(int)));
     connect(client, SIGNAL(RTArduLinkPortClosed(int)), SLOT(RTArduLinkPortClosed(int)));
     connect(client, SIGNAL(RTArduLinkPortRX(int)), SLOT(RTArduLinkPortRX(int)));
@@ -635,21 +635,21 @@ void RTHostIMUGL::loadSettings()
 
     m_settings = new QSettings("RTHostIMU.ini", QSettings::IniFormat);
 
-    //	See if need to set defaults
+    //  See if need to set defaults
 
     if (!m_settings->contains(RTARDULINKHOST_SETTINGS_PORT))
         m_settings->setValue(RTARDULINKHOST_SETTINGS_PORT, "Off");
     if (!m_settings->contains(RTARDULINKHOST_SETTINGS_SPEED))
         m_settings->setValue(RTARDULINKHOST_SETTINGS_SPEED, 4);
 
-    //	Now read in values
+    //  Now read in values
 
     portString = m_settings->value(RTARDULINKHOST_SETTINGS_PORT).toString();
     if ((port = m_comPort->findText(portString)) != -1) {
         m_comPort->setCurrentIndex(port);
     } else {
         m_comPort->addItem(portString);
-        m_comPort->setCurrentIndex(m_comPort->count()-1);
+        m_comPort->setCurrentIndex(m_comPort->count() - 1);
     }
 
     speed = m_settings->value(RTARDULINKHOST_SETTINGS_SPEED).toInt();
