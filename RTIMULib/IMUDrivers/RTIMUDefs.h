@@ -845,7 +845,7 @@
 
 #define LSM9DS1_GYRO_FSR_250        0
 #define LSM9DS1_GYRO_FSR_500        1
-#define LSM9DS1_GYRO_FSR_2000       2
+#define LSM9DS1_GYRO_FSR_2000       3
 
 //  Gyro high pass filter defines
 
