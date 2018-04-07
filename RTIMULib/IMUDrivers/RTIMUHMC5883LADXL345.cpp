@@ -245,9 +245,9 @@ bool RTIMU5883L::IMURead()
     //  Swap the axes to match the board
     //  Might have to change these depending on specific board layout
     RTFLOAT temp;
-    temp = m_imuData.gyro.x();
-    m_imuData.gyro.setX(-m_imuData.gyro.y());
-    m_imuData.gyro.setY(-temp);
+//    temp = m_imuData.gyro.x();
+//    m_imuData.gyro.setX(-m_imuData.gyro.y());
+//    m_imuData.gyro.setY(-temp);
     
     temp = m_imuData.accel.x();
     m_imuData.accel.setX(m_imuData.accel.y());

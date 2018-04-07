@@ -51,6 +51,7 @@ RTIMU_sources = [
     "IMUDrivers/RTHumidity.cpp",
     "IMUDrivers/RTHumidityHTS221.cpp",
     "IMUDrivers/RTHumidityHTU21D.cpp",
+    "IMUDrivers/RTIMUHMC5883LADXL345.cpp"
    ]
 RTIMU_sourcedir = "../../RTIMULib"
 
