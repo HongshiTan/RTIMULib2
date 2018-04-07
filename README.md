@@ -1,12 +1,21 @@
 # RTIMULib2 - a versatile C++ and Python 9-dof, 10-dof and 11-dof IMU library
 
-RTIMULib2 is the simplest way to connect a 9-dof, 10-dof or 11-dof IMU to an embedded Linux system and obtain RTQF or Kalman-filtered quaternion or Euler angle pose data. Basically, two simple function calls (IMUInit() and IMURead()) are pretty much all that's needed to integrate RTIMULib2.
+RTIMULib2 is an easy way to connect a 9-dof, 10-dof or 11-dof IMU to an embedded Linux system and obtain RTQF or Kalman-filtered quaternion or Euler angle pose data. Basically, two simple function calls (IMUInit() and IMURead()) are pretty much all that's needed to integrate RTIMULib2.
 
-RTIMULib2 is the development version of the original RTIMULib library. So far, the main change is the addition of the runtime magnetometer calibration functionality.
+RTIMULib2 is the second version of the original RTIMULib library. The main change is the addition of the runtime magnetometer calibration functionality.
 
 *** Magnetometer calibration is critical for good performance and, with some IMU chips, meaningful fusion results will not be obtained at all unless the magnetometers have been calibrated ***
 
-## Features
+## Please note that this project is no longer active and is of historical interest only.
+
+## Other versions
+
+RTIMULib2 has been extended to support some other IMUs:
+
+* HMC5883L/ADXL345/L3G4200D - https://github.com/jeff-loughlin/RTIMULib2
+* MPU-9255 - https://github.com/Nick-Currawong/RTIMULib2
+
+## Demo Apps
 
 The Linux directory contains the main demo apps for embedded Linux systems:
 
@@ -18,11 +27,9 @@ The Linux directory contains the main demo apps for embedded Linux systems:
 * RTIMULibDemo is a simple GUI app that displays the fused IMU data in real-time.
 * RTIMULibDemoGL adds OpenGL visualization to RTIMULibDemo.
 
-RTIMULib is a C++ library but there are also Python bindings in Linux/python. It's easy to build and install the Python RTIMULib library using the provided setup.py after which any Python script will have access to RTIMULib functionality. See Linux/python.README.md (https://github.com/richards-tech/RTIMULib2/blob/master/Linux/python/README.md) for more details. Two demo scripts show how to use the Python interface.
+RTIMULib is a C++ library but there are also Python bindings in Linux/python. Build and install the Python RTIMULib library using the provided setup.py after which any Python script will have access to RTIMULib functionality. See Linux/python.README.md for more details. Two demo scripts show how to use the Python interface.
 
-Check out www.richards-tech.com for more details, updates and news.
-
-RTIMULib currently supports the following IMUs:
+RTIMULib works with the following IMUs:
 
 * InvenSense MPU-9150 single chip IMU.
 * InvenSense MPU-6050 plus HMC5883 magnetometer on MPU-6050's aux bus (handled by the MPU-9150 driver).
@@ -38,7 +45,7 @@ RTIMULib currently supports the following IMUs:
 
 The LSM9DS1 implementation was generously supplied by XECDesign.
 
-Pressure/temperature sensing is supported for the following pressure sensors:
+Pressure/temperature sensing works with the following pressure sensors:
 
 * BMP180
 * LPS25H
@@ -60,13 +67,13 @@ RTIMULib also supports multiple sensor integration fusion filters such as RTQF a
 
 Two types of platforms are supported:
 
-* Embedded Linux. RTIMULib is supported for the Raspberry Pi (Raspbian) and Intel Edison. Demo apps for these can be found in the Linux directory and instructions for building and running can be found there. Its prerequisites are very simple - just I2C support on the target system along with the standard build-essential (included in the Raspberry Pi Raspbian distribution by default).
+* Embedded Linux. RTIMULib works with the Raspberry Pi (Raspbian). Demo apps for these can be found in the Linux directory and instructions for building and running can be found there. Its prerequisites are very simple - just I2C support on the target system along with the standard build-essential (included in the Raspberry Pi Raspbian distribution by default).
 
 * Desktop (Ubuntu/Windows/Mac). There are two apps (RTHostIMU and RTHostIMUGL) that allow the sensor fusion to be separated from the sensor interfacing and data collection. An Arduino (running the RTArduLinkIMU sketch from the RTIMULib-Arduino repo) fitted with an IMU chip collects the sensor data and sends it to the desktop. RTHostIMU and RTHostIMUGL (this one has an OpenGL visualization of the data) communicate with the Arduino via a USB connection.
 
 The MPU-9250 and SPI driver code is based on code generously supplied by staslock@gmail.com (www.clickdrive.io). I am sure that any bugs that may exist are due to my integration efforts and not the quality of the supplied code!
 
-RTIMULib is licensed under the MIT license.
+RTIMULib2 is licensed under the MIT license.
 
 ## Repo structure
 
