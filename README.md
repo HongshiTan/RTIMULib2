@@ -106,3 +106,6 @@ RTIMULib2 has two mechanisms that can be used to calibrate the magnetometers:
 Also, if using a non-standard axis rotation, magnetometer calibration (and accelerometer calibration if that has been performed) MUST be run AFTER changing the axis rotation.
 
 
+##Note:
+This is a fork of richards-tech's library - this version adds support for an IMU (no-name brand) containing an HMC5883L compass, an ADXL345 accelerometer, and an L3G4200D gyro.  This support is experimental and currently incomplete.  Some stuff is hard-coded that should be configurable, but it generally works reliably and gets accurate data from the sensors.
+
