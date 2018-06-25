@@ -14,6 +14,7 @@ RTIMULib2 has been extended to support some other IMUs:
 
 * HMC5883L/ADXL345/L3G4200D - https://github.com/jeff-loughlin/RTIMULib2
 * MPU-9255 - https://github.com/Nick-Currawong/RTIMULib2
+* Pololu MinIMU-9 v5 (LSM6DS33 and LIS3MDL) - https://github.com/fjp/RTIMULib2
 
 ## Demo Apps
 
