@@ -43,6 +43,7 @@ RTIMULib works with the following IMUs:
 * L3GD20H + LSM303DLHC (optionally with BMP180) as used on the new Adafruit 10-dof IMU.
 * Bosch BMX055 (although magnetometer support is experimental currently).
 * Bosch BNO055 IMU with onchip fusion. Note: will not work reliably with RaspberryPi/Pi2 due to clock-stretching issues.
+* HMC5883L compass + ADXL345 accelerometer + L3G4200D gyro.
 
 The LSM9DS1 implementation was generously supplied by XECDesign.
 
@@ -105,8 +106,3 @@ RTIMULib2 has two mechanisms that can be used to calibrate the magnetometers:
 * Runtime calibration. This mechanism is used if there is no manual calibration data. The magnetometers will remain uncalibrated until a sufficient range of readings has been obtained in each of the axes. The code will continue to monitor magnetometer readings for new maxima and minima and update the calibration data as required. This data is not saved so the procedure will start from scratch if the code is restarted.
 
 Also, if using a non-standard axis rotation, magnetometer calibration (and accelerometer calibration if that has been performed) MUST be run AFTER changing the axis rotation.
-
-
-##Note:
-This is a fork of richards-tech's library - this version adds support for an IMU (no-name brand) containing an HMC5883L compass, an ADXL345 accelerometer, and an L3G4200D gyro.  This support is experimental and currently incomplete.  Some stuff is hard-coded that should be configurable, but it generally works reliably and gets accurate data from the sensors.
-
