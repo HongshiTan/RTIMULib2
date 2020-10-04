@@ -1,0 +1,3 @@
+[submodule "RTHost/ros"]
+	path = RTHost/ros
+	url = https://github.com/apiyap/rtimulib2_ros.git

@@ -89,7 +89,13 @@ This directory contains the embedded Linux demo apps (for Raspberry Pi and Intel
 
 ### RTHost
 
+
+#### Native Applications
 RTHost contains the two apps, RTHost and RTHostGL, that can be used by desktops that don't have direct connection to an IMU (as they don't have I2C or SPI interfaces). An Arduino running RTArduLinkIMU from the RTIMULib-Arduino repo provides the hardware interface and a USB cable provides the connection between the desktop and the Arduino.
+
+#### ROS support
+Thanks [apiyap'](https://github.com/apiyap/rtimulib2_ros) contributions, RTIMULib2 is available in ROS, the node code is under ```RTHost/ros```
+
 
 ### RTEllipsoidFit
 
