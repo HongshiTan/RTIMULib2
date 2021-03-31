@@ -9,7 +9,7 @@ Makefile*
 !Linux/RTIMULibDrive11/Makefile
 !Linux/RTIMULibCal/Makefile
 !Linux/RTIMULibvrpn/Makefile
-build/
+build*/
 debug/
 Debug/
 Release/
