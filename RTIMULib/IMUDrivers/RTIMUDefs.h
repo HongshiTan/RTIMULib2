@@ -777,7 +777,7 @@
 #define LSM9DS1_MAG_ADDRESS1        0x1d
 #define LSM9DS1_MAG_ADDRESS2        0x1e
 #define LSM9DS1_MAG_ADDRESS3        0x1f
-#define LSM9DS1_MAG_ID              0x3d
+#define LSM9DS1_MAG_ID              0x68
 
 //  LSM9DS1 Register map
 
