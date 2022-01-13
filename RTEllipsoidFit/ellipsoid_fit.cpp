@@ -1,27 +1,36 @@
 
+#include "ellipsoid_fit.h"
+
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
+#include <iomanip>
+#include <string>
 
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
 
-
 using namespace std;
 using namespace Eigen;
 
-int main(int argc, char **argv)
+int fit_ellipsoid(const char * filename_in, const char * filename_out, int mag_data_counter)
 {
-	int mag_data_counter = 1000;
 	FILE * fp;
 	double mag_x, mag_y, mag_z;
 
 	MatrixXd mat_D(mag_data_counter, 9);
 	MatrixXd mat_DT;
-	fp = fopen("magdata", "r");
+
+	fp = fopen(filename_in, "r");
+
+	if (fp == NULL)
+	{
+		("Error opening %s\n.", filename_in);
+		exit(1);
+	}
 
 	for (int i = 0; i < mag_data_counter; i++)
 	{
-
 		fscanf(fp, "%lf %lf %lf\n", &mag_x, &mag_y, &mag_z);
 		mat_D(i, 0) = mag_x * mag_x;
 		mat_D(i, 1) = mag_y * mag_y;
@@ -33,7 +42,9 @@ int main(int argc, char **argv)
 		mat_D(i, 7) = 2 * mag_y;
 		mat_D(i, 8) = 2 * mag_z;
 	}
+
 	fclose(fp);
+
 	mat_DT = mat_D.transpose();
 
 	MatrixXd mat_Ones = MatrixXd::Ones(mag_data_counter, 1);
@@ -62,7 +73,6 @@ int main(int argc, char **argv)
 	mat_A_4x4(3, 2) = mat_Result(8, 0);
 	mat_A_4x4(3, 3) = -1.0;
 
-
 	MatrixXd mat_Center = -((mat_A_4x4.block(0, 0, 3, 3)).inverse() * mat_Result.block(6, 0, 3, 1));
 
 	Matrix<double, 4, 4>  mat_T_4x4;
@@ -75,6 +85,7 @@ int main(int argc, char **argv)
 	//mat_T_4x4(3,0)=mat_Center()
 	MatrixXd mat_Eigval(3, 1) ;
 	MatrixXd mat_Evecs(3, 3) ;
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -82,6 +93,7 @@ int main(int argc, char **argv)
 			mat_Evecs(i, j) = (eig.eigenvectors())(i, j).real();
 		}
 	}
+
 	mat_Eigval(0, 0) = (eig.eigenvalues())(0, 0).real();
 	mat_Eigval(1, 0) = (eig.eigenvalues())(1, 0).real();
 	mat_Eigval(2, 0) = (eig.eigenvalues())(2, 0).real();
@@ -95,10 +107,41 @@ int main(int argc, char **argv)
 	mat_Scale = mat_Scale.inverse().array() * min_Radii;
 	MatrixXd mat_Correct = mat_Evecs * mat_Scale * mat_Evecs.transpose();
 
-
 	cout << "The Ellipsoid center is:" << endl << mat_Center << endl;
 	cout << "The Ellipsoid radii is:" << endl << mat_Radii << endl;
 	cout << "The scale matrix  is:" << endl << mat_Scale << endl;
 	cout << "The correct matrix  is:" << endl << mat_Correct << endl;
 
+	FILE *correction_file = fopen(filename_out, "w");
+	if (correction_file == NULL)
+	{
+		printf("Error opening %s\n", filename_out);
+		exit(1);
+	}
+
+	fprintf(correction_file, "%f %f %f %f %f %f %f %f %f %f %f %f\n",
+	mat_Center(0), mat_Center(1), mat_Center(2),
+	mat_Correct(0,0), mat_Correct(0,1), mat_Correct(0,2),
+	mat_Correct(1,0), mat_Correct(1,1), mat_Correct(1,2),
+	mat_Correct(2,0), mat_Correct(2,1), mat_Correct(2,2));
+
+	fclose(correction_file);
+
+	return 0;
+}
+
+int main(int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		printf("Too few arguments. Usage:\n");
+		printf("ellipsoid_fit [input_file] [output_file]\n");
+		return 1;
+	}
+
+	if (!fit_ellipsoid(argv[0], argv[1], 1000)) {
+		return 1;
+	}
+
+	return 0;
 }

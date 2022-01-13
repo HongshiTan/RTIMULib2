@@ -25,6 +25,7 @@
 #include "RTIMULib.h"
 #include "RTIMUMagCal.h"
 #include "RTIMUAccelCal.h"
+#include "ellipsoid_fit.h"
 
 #include <termios.h>
 #include <unistd.h>
@@ -34,7 +35,7 @@
 
 //  where to find the ellipsoid fitting code
 
-#define ELLIPSOID_FIT_DIR               "../RTEllipsoidFit/"
+#define ELLIPSOID_FIT_DIR               "./"
 
 //  function prototypes
 
@@ -260,34 +261,11 @@ void doMagEllipsoidCal()
 
 void processEllipsoid()
 {
-    pid_t pid;
-    int status;
-
     printf("\n\nProcessing ellipsoid fit data...\n");
 
-    pid = fork();
-    if (pid == 0) {
-        //  child process
-        chdir(ELLIPSOID_FIT_DIR);
-        execl("/bin/sh", "/bin/sh", "-c", RTIMUCALDEFS_OCTAVE_COMMAND, NULL);
-        printf("here");
-        _exit(EXIT_FAILURE);
-    } else if (pid < 0) {
-        printf("\nFailed to start ellipsoid fitting code.\n");
-        return;
-    } else {
-        //  parent process - wait for child
-        if (waitpid(pid, &status, 0) != pid) {
-            printf("\n\nEllipsoid fit failed, %d\n", status);
-        } else {
-            if (status == 0) {
-                printf("\nEllipsoid fit completed - saving data to file.");
-                magCal->magCalSaveCorr(ELLIPSOID_FIT_DIR);
-            } else {
-                printf("\nEllipsoid fit returned %d - aborting.\n", status);
-            }
-        }
-    }
+    fit_ellipsoid(RTIMUCALDEFS_MAG_RAW_FILE, RTIMUCALDEFS_MAG_CORR_FILE, 1000);
+
+    magCal->magCalSaveCorr(ELLIPSOID_FIT_DIR);
 }
 
 void doAccelCal()
